@@ -25,7 +25,7 @@
                 <td *ngIf = 'showEmployees'>{{employee.name}}</td>
               </tr>
             </td>
-            <td>{{department.name}}</td>
+            <td><a [routerLink] = "['/department', department.id]">{{department.name}}</a></td>
             <td>{{department.description}}</td>
           </tr>
         </tbody>

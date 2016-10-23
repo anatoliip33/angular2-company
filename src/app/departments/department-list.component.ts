@@ -3,7 +3,6 @@ import { IDepartment } from './department';
 import { DepartmentService } from './department.service';
 
 @Component({
-  selector: 'app-departments',
   templateUrl: './department-list.component.html',
 })
 

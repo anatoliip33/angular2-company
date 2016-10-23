@@ -1,20 +1,22 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { HttpModule } from '@angular/http';
 
+
 import { AppComponent } from './app.component';
-import { DepartmentListComponent } from './departments/department-list.component';
+import { DepartmentModule } from './departments/department.module';
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    DepartmentListComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
-    FormsModule,
-    HttpModule
+    HttpModule,
+    DepartmentModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]

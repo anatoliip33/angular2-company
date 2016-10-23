@@ -18,6 +18,11 @@ export class DepartmentService {
             .catch(this.handleError);
   }
 
+  getDepartment(id: number): Observable<IDepartment> {
+    return this.getDepartments()
+            .map((departments: IDepartment[]) => departments.find(department => department.id === id));
+  }
+
   private handleError(error: Response) {
     console.error(error);
     return Observable.throw(error.json().error || 'Server error');
