@@ -2,6 +2,8 @@
   <div class='panel-heading'>
     {{pageTitle}}
   </div>
+  <label>Department name:</label> <input #departmentName />
+  <button (click)="add(departmentName.value); departmentName.value=''">Add</button>
   <div class='panel-body'>
     <div class='table-responsive'>
       <table class='table'

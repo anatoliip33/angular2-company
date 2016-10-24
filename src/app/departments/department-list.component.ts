@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { IDepartment } from './department';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Observable, Subscription } from 'rxjs/Rx';
+
+import { Department } from './department';
 import { DepartmentService } from './department.service';
 
 @Component({
@@ -11,10 +13,20 @@ export class DepartmentListComponent implements OnInit {
   showEmployees: boolean = false;
   errorMessage: string;
 
-  departments: IDepartment[];
+  departments: Department[];
+  selectedDepartment: Department;
 
   constructor(private _departmentService: DepartmentService){
+  }
 
+  add(name: string): void {
+    name = name.trim();
+    if (!name) { return; }
+    this._departmentService.create(name)
+      .then(department => {
+        this.departments.push(department);
+        this.selectedDepartment = null;
+    });
   }
 
   toggleEmployees(): void {

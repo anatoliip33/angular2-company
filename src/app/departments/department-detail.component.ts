@@ -3,17 +3,16 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { Subscription } from 'rxjs/Subscription';
 
-import { IDepartment } from './department';
+import { Department } from './department';
 import { DepartmentService } from './department.service';
-
 
 @Component({
   templateUrl: './department-detail.component.html'
 })
 
-export class DepartmentDetailComponent {
+export class DepartmentDetailComponent implements OnInit, OnDestroy {
   pageTitle: string = 'Department Detail';
-  department: IDepartment;
+  department: Department;
   errorMessage: string;
   private sub: Subscription;
 
@@ -26,19 +25,18 @@ export class DepartmentDetailComponent {
     this.sub = this._route.params.subscribe(
       params => {
         let id = +params['id'];
-        this.pageTitle += `: ${id}`;
         this.getDepartment(id);
       });
+  }
+
+  ngOnDestroy() {
+    this.sub.unsubscribe();
   }
 
   getDepartment(id: number) {
     this._departmentService.getDepartment(id).subscribe(
       department => this.department = department,
       error => this.errorMessage = <any>error);
-  }
-
-  ngOnDestroy() {
-    this.sub.unsubscribe();
   }
 
   onBack(): void {
