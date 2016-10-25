@@ -1,7 +1,6 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-
-import { Subscription } from 'rxjs/Subscription';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
+import { Location }               from '@angular/common';
 
 import { Department } from './department';
 import { DepartmentService } from './department.service';
@@ -10,36 +9,29 @@ import { DepartmentService } from './department.service';
   templateUrl: './department-detail.component.html'
 })
 
-export class DepartmentDetailComponent implements OnInit, OnDestroy {
+export class DepartmentDetailComponent implements OnInit {
   pageTitle: string = 'Department Detail';
   department: Department;
-  errorMessage: string;
-  private sub: Subscription;
 
   constructor(private _route: ActivatedRoute,
-              private _router: Router,
+              private _location: Location,
               private _departmentService: DepartmentService) {
   }
 
   ngOnInit(): void {
-    this.sub = this._route.params.subscribe(
-      params => {
-        let id = +params['id'];
-        this.getDepartment(id);
-      });
+    this._route.params.forEach((params: Params) => {
+      let id = +params['id'];
+      this._departmentService.getDepartment(id)
+        .then(department => this.department = department);
+    });
   }
 
-  ngOnDestroy() {
-    this.sub.unsubscribe();
-  }
-
-  getDepartment(id: number) {
-    this._departmentService.getDepartment(id).subscribe(
-      department => this.department = department,
-      error => this.errorMessage = <any>error);
-  }
+  // save(): void {
+  //   this._departmentService.update(this.department)
+  //     .then(() => this.onBack());
+  // }
 
   onBack(): void {
-    this._router.navigate(['/departments']);
+    this._location.back();
   }
 }

@@ -1,5 +1,4 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
-import { Observable, Subscription } from 'rxjs/Rx';
+import { Component, OnInit } from '@angular/core';
 
 import { Department } from './department';
 import { DepartmentService } from './department.service';
@@ -9,14 +8,19 @@ import { DepartmentService } from './department.service';
 })
 
 export class DepartmentListComponent implements OnInit {
-  pageTitle: string = 'Department List';
+  pageTitle: string = 'Departments';
   showEmployees: boolean = false;
-  errorMessage: string;
 
   departments: Department[];
   selectedDepartment: Department;
 
   constructor(private _departmentService: DepartmentService){
+  }
+
+  getDepartments(): void {
+    this._departmentService
+        .getDepartments()
+        .then(departments => this.departments = departments);
   }
 
   add(name: string): void {
@@ -34,8 +38,10 @@ export class DepartmentListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this._departmentService.getDepartments()
-      .subscribe(departments => this.departments = departments,
-                  error => this.errorMessage = <any>error);
+    this.getDepartments();
+  }
+
+  onSelect(department: Department): void {
+    this.selectedDepartment = department;
   }
 }
